@@ -35,6 +35,44 @@ class IntCodeComputer {
                 this.output.push(this.getNum(mode[0], this.program[this.pos+1]));
                 this.pos += 2;
                 break;
+            
+            case 5: // jump if true (1st param non-zero)
+                if(this.getNum(mode[0], this.program[this.pos +1]) != 0){
+                    this.progam[this.program[this.pos]] = this.getNum(mode[1], this.program[this.pos +2]);
+                }
+                else{
+                    this.pos += 2;
+                }
+                break;
+            
+            case 6: // jump if false
+                if(this.getNum(mode[0], this.program[this.pos +1]) == 0){
+                    this.progam[this.progam[this.pos]] = this.getNum(mode[1], this.program[this.pos +2]);
+                }
+                else{
+                    this.pos += 2;
+                }
+                break;
+            
+            case 7: // less than (1st param less than 2nd param store in 3rd param 1 else 0)
+                if(this.getNum(mode[0], this.program[this.pos +1]) < this.getNum(mode[1], this.program[this.pos +2])){
+                    this.program[this.program[this.pos + 3]] = 1;
+                }
+                else{
+                    this.program[this.program[this.pos + 3]] = 0;
+                }
+                this.pos += 4;
+                break;
+            
+            case 8: // equals
+                if( this.getNum(mode[0], this.program[this.pos +1]) == this.getNum(mode[1], this.program[this.pos +2]) ){
+                    this.program[this.program[this.pos + 3]] = 1;
+                }
+                else{
+                    this.program[this.program[this.pos + 3]] = 0;
+                }
+                this.pos += 4;
+                break;
 
             default: // catch
                 break;
@@ -64,5 +102,5 @@ class IntCodeComputer {
 }
 
 let computer = new IntCodeComputer();
-let output = computer.run(real, 1);
+let output = computer.run(real, 5);
 console.log(output);
